@@ -2,4 +2,5 @@
 *.pyc
 __*
 ui_*
-testdir/batchrename
+testdir/
+

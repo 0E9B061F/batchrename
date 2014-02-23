@@ -11,7 +11,8 @@ class BatchRename(QtGui.QWidget):
         self.ui = Ui_BatchRename()
         self.ui.setupUi(self)
 
-        self.count = 0
+        self.count  = 0
+        self.subdir = "batchrename"
 
         self.directory = os.getcwd()
         self.basename  = "renamed"
@@ -28,9 +29,13 @@ class BatchRename(QtGui.QWidget):
         self.ui.previewOutput.setModel(self.outputListModel)
 
         self.updatePreview()
+        self.resetProgress()
 
         self.show()
 
+
+    def pad(self, num):
+        return '%03d' % num
 
     def setBasename(self):
         self.ui.basenameInput.setText(self.basename)
@@ -39,14 +44,18 @@ class BatchRename(QtGui.QWidget):
         self.ui.directoryInput.setText(self.directory)
 
     def outputDir(self):
-        subdir = "renamed"
-        return os.path.join(self.directory, subdir)
+        return os.path.join(self.directory, self.subdir)
+
+    def genFilename(self, path):
+        ext  = os.path.splitext(path)[1]
+        name =  self.basename + "-" + self.pad(self.count) + ext
+        return name
+
+    def relativeFilename(self, path):
+        return os.path.join(self.subdir, self.genFilename(path))
 
     def renameFile(self, path):
-        ext    = os.path.splitext(path)[1]
-        name   = self.basename + "-" + str(self.count) + ext
-        self.count += 1
-        return os.path.join(self.outputDir(), name)
+        return os.path.join(self.outputDir(), self.genFilename(path))
 
     def updatePreview(self):
         files = self.listFiles()
@@ -57,47 +66,67 @@ class BatchRename(QtGui.QWidget):
         self.targetListModel.setStringList(self.targetList)
 
         self.outputList.clear()
-        self.count = 0
+        self.count = 1
         for path in files:
-            path = self.renameFile(path)
+            path = os.path.join(self.subdir, self.genFilename(path))
             self.outputList.append(path)
+            self.count += 1
         self.outputListModel.setStringList(self.outputList)
+
+    def updateProgress(self):
+        files = self.listFiles()
+        fileCount = len(files)
+        self.ui.progressLabel.setText(self.pad(self.count) + "/" + self.pad(fileCount))
+        self.ui.progressBar.setValue(100 * (self.count / fileCount))
+
+    def resetProgress(self):
+        self.count = 1
+        self.updateProgress()
 
     def listFiles(self, match="*"):
         return [ x for x in os.listdir(self.directory) if os.path.isfile(os.path.join(self.directory, x)) ]
 
     def rename(self):
-        print("renaming")
         files = self.listFiles()
+        try:
+            shutil.rmtree(self.outputDir())
+        except:
+            pass
         try:
             os.mkdir(self.outputDir())
         except:
             pass
-        self.count = 0
+        self.count = 1
         for f in files:
             r = self.renameFile(f)
-            self.ui.operationInput.text = f
-            self.ui.operationOutput.text = r
-            self.ui.progressLabel.text = str(self.count) + "/" + str(len(files))
+            self.ui.operationInput.setText(f)
+            self.ui.operationOutput.setText(self.relativeFilename(f))
+            self.updateProgress()
             f = os.path.join(self.directory, f)
             r = os.path.join(self.outputDir(), r)
             shutil.copyfile(f, r)
+            self.count += 1
 
     def changeDirectory(self):
         self.directory = str(self.ui.directoryInput.text())
         self.updatePreview()
-        print("change dir")
+        self.resetProgress()
 
     def browseDirectory(self):
-        print("browsing")
+        dialog = QtGui.QFileDialog(self)
+        dialog.setFileMode(QtGui.QFileDialog.Directory)
+        if (dialog.exec_()):
+            self.ui.directoryInput.setText(dialog.selectedFiles()[0])
+            self.changeDirectory()
 
     def changeBasename(self):
         self.basename = str(self.ui.basenameInput.text())
         self.updatePreview()
-        print("basename changed")
+        self.resetProgress()
 
 
 def main():
+    os.chdir("testdir")
     app = QtGui.QApplication(sys.argv)
     br  = BatchRename()
     sys.exit(app.exec_())

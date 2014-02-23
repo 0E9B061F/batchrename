@@ -180,19 +180,6 @@
       </property>
      </spacer>
     </item>
-    <item>
-     <widget class="QLabel" name="operationFilesize">
-      <property name="font">
-       <font>
-        <family>Calibri</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Size: 1.2MiB</string>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -335,7 +322,7 @@
        <string notr="true"/>
       </property>
       <property name="value">
-       <number>24</number>
+       <number>0</number>
       </property>
       <property name="textVisible">
        <bool>true</bool>
@@ -515,14 +502,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>gridLayoutWidget</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
-  <zorder>horizontalLayoutWidget_2</zorder>
-  <zorder>RenameButton</zorder>
-  <zorder>BottomSpacer</zorder>
-  <zorder>horizontalLayoutWidget_3</zorder>
-  <zorder>directoryInput</zorder>
-  <zorder>horizontalLayoutWidget_4</zorder>
  </widget>
  <resources/>
  <connections>

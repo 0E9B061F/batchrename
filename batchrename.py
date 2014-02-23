@@ -11,8 +11,12 @@ class BatchRename(QtGui.QWidget):
         self.ui = Ui_BatchRename()
         self.ui.setupUi(self)
 
-        self.count  = 0
-        self.subdir = "batchrename"
+        self.count      = 0
+        self.subdir     = "batchrename"
+        self.safety     = False
+        self.padding    = 3
+        self.start      = 1
+        self.fileFilter = "*.jpg *.jpeg *.tif *.tiff *.png *.raw *.gif"
 
         self.directory = os.getcwd()
         self.basename  = "renamed"
@@ -66,7 +70,7 @@ class BatchRename(QtGui.QWidget):
         self.targetListModel.setStringList(self.targetList)
 
         self.outputList.clear()
-        self.count = 1
+        self.count = 0
         for path in files:
             path = os.path.join(self.subdir, self.genFilename(path))
             self.outputList.append(path)
@@ -76,11 +80,11 @@ class BatchRename(QtGui.QWidget):
     def updateProgress(self):
         files = self.listFiles()
         fileCount = len(files)
-        self.ui.progressLabel.setText(self.pad(self.count) + "/" + self.pad(fileCount))
-        self.ui.progressBar.setValue(100 * (self.count / fileCount))
+        self.ui.progressLabel.setText(self.pad(self.count+1) + "/" + self.pad(fileCount))
+        self.ui.progressBar.setValue(100 * ((self.count) / fileCount))
 
     def resetProgress(self):
-        self.count = 1
+        self.count = 0
         self.updateProgress()
         self.ui.operationInput.setText("")
         self.ui.operationOutput.setText("")
@@ -98,8 +102,9 @@ class BatchRename(QtGui.QWidget):
             os.mkdir(self.outputDir())
         except:
             pass
-        self.count = 1
+        self.count = 0
         for f in files:
+            self.count += 1
             r = self.renameFile(f)
             fabs = os.path.join(self.directory, f)
             rabs = os.path.join(self.outputDir(), r)
@@ -107,7 +112,6 @@ class BatchRename(QtGui.QWidget):
             self.ui.operationInput.setText(f)
             self.ui.operationOutput.setText(self.relativeFilename(f))
             self.updateProgress()
-            self.count += 1
 
     def changeDirectory(self):
         self.directory = str(self.ui.directoryInput.text())
@@ -125,6 +129,24 @@ class BatchRename(QtGui.QWidget):
         self.basename = str(self.ui.basenameInput.text())
         self.updatePreview()
         self.resetProgress()
+
+    def updateFilter(self):
+        self.fileFilter = str(self.ui.filterInput.text())
+        self.updatePreview()
+
+    def updatePadding(self):
+        self.padding = int(self.ui.paddingInput.text())
+        self.updatePreview()
+
+    def updateStart(self):
+        self.start = int(self.ui.startInput.text())
+        self.updatePreview()
+
+    def toggleSafety(self):
+        self.safety = not self.safety
+
+    def openOutputDir(self):
+        os.system("xdg-open " + self.outputDir())
 
 
 def main():

@@ -178,7 +178,6 @@ class BatchRename(QtGui.QWidget):
 
 
 def main():
-    os.chdir("testdir")
     app = QtGui.QApplication(sys.argv)
     br  = BatchRename()
     sys.exit(app.exec_())

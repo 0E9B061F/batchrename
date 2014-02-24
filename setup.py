@@ -1,4 +1,7 @@
 from distutils.core import setup
 import py2exe
 
-setup(windows=['br.py'])
+setup(windows=[{
+	'script': 'br.py',
+	"icon_resources": [(1, "icon.ico")]
+}])

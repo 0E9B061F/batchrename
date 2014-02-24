@@ -49,7 +49,7 @@ Section "BatchRename (required)"
 
   # Windows Explorer context menu integration
   WriteRegStr HKCR "Directory\shell\s25BatchRename" "" "Open Batch Renamer ..."
-  WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\batchrename.exe '%1'"
+  WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\batchrename.exe %1"
   
 SectionEnd
 

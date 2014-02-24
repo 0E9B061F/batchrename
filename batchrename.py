@@ -110,17 +110,14 @@ class BatchRename(QtGui.QWidget):
         return os.path.isfile(os.path.join(self.directory, path))
 
     # Courtesy http://www.peterbe.com/plog/uniqifiers-benchmark
-    def uniq(self, seq, idfun=None):
+    def uniq(self, seq):
         u'Return only the unique members of the given sequence'
-
-        if idfun is None:
-            def idfun(x): return x
+        
         seen = {}
         result = []
         for item in seq:
-            marker = idfun(item)
-            if marker in seen: continue
-            seen[marker] = 1
+            if item in seen: continue
+            seen[item] = 1
             result.append(item)
         return result
 
@@ -233,7 +230,7 @@ class BatchRename(QtGui.QWidget):
 
 def main():
     u'Ye olde canonical entry point'
-    
+
     app = QtGui.QApplication(sys.argv)
     br  = BatchRename()
     sys.exit(app.exec_())

@@ -169,6 +169,11 @@ QPushButton {
 	font-style: normal;
 	font-size: 8pt;
 }
+QPushButton:!enabled {
+	background-color: #cfcfcf;
+	color: #909090;
+}
+
 #exitButton {
 	background-color: none;
 	border: none;
@@ -700,6 +705,9 @@ QLabel {
     <layout class="QHBoxLayout" name="controlGroup">
      <item>
       <widget class="QPushButton" name="outputButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="font">
         <font>
          <family>Candara</family>

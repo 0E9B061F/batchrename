@@ -22,7 +22,11 @@ class BatchRename(QtGui.QWidget):
         self.padding    = 3
         self.startAt    = 1
         self.fileFilter = "*.jpg *.jpeg *.tif *.tiff *.png *.raw *.gif"
-        self.directory  = os.path.expanduser("~")
+
+        try:
+            self.directory = sys.argv[1]
+        except:
+            self.directory = os.path.expanduser("~")
 
         # Fill in defaults on the interface
         self.setBasename()

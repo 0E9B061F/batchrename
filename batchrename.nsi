@@ -38,14 +38,18 @@ Section "BatchRename (required)"
   file icon16.png
   
   ; Write the installation path into the registry
-  WriteRegStr HKLM SOFTWARE\s25_BatchRename "Install_Dir" "$INSTDIR"
+  WriteRegStr HKLM SOFTWARE\s25BatchRename "Install_Dir" "$INSTDIR"
   
   ; Write the uninstall keys for Windows
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "DisplayName" "NSIS BatchRename"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "UninstallString" '"$INSTDIR\uninstall.exe"'
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "NoRepair" 1
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "DisplayName" "NSIS BatchRename"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "NoRepair" 1
   WriteUninstaller "uninstall.exe"
+
+  # Windows Explorer context menu integration
+  WriteRegStr HKCR "Directory\shell\s25BatchRename" "" "Open Batch Renamer ..."
+  WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\batchrename.exe '%1'"
   
 SectionEnd
 
@@ -66,8 +70,11 @@ SectionEnd
 Section "Uninstall"
   
   ; Remove registry keys
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename"
-  DeleteRegKey HKLM SOFTWARE\s25_BatchRename
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename"
+  DeleteRegKey HKLM SOFTWARE\s25BatchRename
+
+  # Remove Windows Explorer context menu integration
+  DeleteRegKey HKCR "Directory\shell\s25BatchRename"
 
   ; Remove files and uninstaller
   Delete $INSTDIR\*

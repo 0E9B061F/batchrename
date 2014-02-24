@@ -13,5 +13,9 @@ task :py2exe do
 	sh "python setup.py py2exe --includes sip"
 end
 
+task :ico do
+	sh "png2ico icon.ico icon64.png icon32.png icon16.png"
+end
+
 task :default => "ui_batchrename.py"
 

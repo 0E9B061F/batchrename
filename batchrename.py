@@ -251,6 +251,8 @@ class BatchRename(QtGui.QWidget):
 def main():
     u'Ye olde canonical entry point'
 
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
     app = QtGui.QApplication(sys.argv)
     br  = BatchRename()
     sys.exit(app.exec_())

@@ -1,4 +1,4 @@
-import sys, os, shutil, fnmatch
+import sys, os, shutil, fnmatch, glob, subprocess, platform
 from PyQt4 import QtCore, QtGui
 from ui_batchrename import Ui_BatchRename
 
@@ -12,14 +12,14 @@ class BatchRename(QtGui.QWidget):
         self.ui.setupUi(self)
 
         self.count      = 0
-        self.subdir     = "batchrename"
-        self.safety     = False
+        self.subdir     = "renamed"
+        self.safety     = True
         self.padding    = 3
-        self.start      = 1
+        self.startAt    = 1
         self.fileFilter = "*.jpg *.jpeg *.tif *.tiff *.png *.raw *.gif"
 
         self.directory = os.getcwd()
-        self.basename  = "renamed"
+        self.basename  = "file"
 
         self.setBasename()
         self.setDirectory()
@@ -33,13 +33,12 @@ class BatchRename(QtGui.QWidget):
         self.ui.previewOutput.setModel(self.outputListModel)
 
         self.updatePreview()
-        self.resetProgress()
 
         self.show()
 
 
     def pad(self, num):
-        return '%03d' % num
+        return str(num).zfill(self.padding)
 
     def setBasename(self):
         self.ui.basenameInput.setText(self.basename)
@@ -52,7 +51,7 @@ class BatchRename(QtGui.QWidget):
 
     def genFilename(self, path):
         ext  = os.path.splitext(path)[1]
-        name =  self.basename + "-" + self.pad(self.count) + ext
+        name =  self.basename + "-" + self.pad(self.count+self.startAt-1) + ext
         return name
 
     def relativeFilename(self, path):
@@ -72,25 +71,38 @@ class BatchRename(QtGui.QWidget):
         self.outputList.clear()
         self.count = 0
         for path in files:
-            path = os.path.join(self.subdir, self.genFilename(path))
-            self.outputList.append(path)
             self.count += 1
+            path = os.path.join(self.subdir, self.genFilename(path))
+            if os.path.exists(os.path.join(self.directory, path)):
+                path = "[x] "+path
+            else:
+                path = "[ ] "+path
+
+            self.outputList.append(path)
         self.outputListModel.setStringList(self.outputList)
 
-    def updateProgress(self):
-        files = self.listFiles()
-        fileCount = len(files)
-        self.ui.progressLabel.setText(self.pad(self.count+1) + "/" + self.pad(fileCount))
-        self.ui.progressBar.setValue(100 * ((self.count) / fileCount))
+    def filterFile(self, filename):
+        return os.path.isfile(os.path.join(self.directory, filename))
 
-    def resetProgress(self):
-        self.count = 0
-        self.updateProgress()
-        self.ui.operationInput.setText("")
-        self.ui.operationOutput.setText("")
+    def uniq(self, seq, idfun=None):
+        if idfun is None:
+            def idfun(x): return x
+        seen = {}
+        result = []
+        for item in seq:
+            marker = idfun(item)
+            if marker in seen: continue
+            seen[marker] = 1
+            result.append(item)
+        return result
 
     def listFiles(self, match="*"):
-        return [ x for x in os.listdir(self.directory) if os.path.isfile(os.path.join(self.directory, x)) ]
+        files = []
+        for extglob in self.fileFilter.split(" "):
+            fullglob = os.path.join(self.directory, extglob)
+            files += glob.glob(fullglob)
+        files = self.uniq(files)
+        return [ f for f in files if self.filterFile(f) ]
 
     def rename(self):
         files = self.listFiles()
@@ -109,26 +121,24 @@ class BatchRename(QtGui.QWidget):
             fabs = os.path.join(self.directory, f)
             rabs = os.path.join(self.outputDir(), r)
             shutil.copyfile(fabs, rabs)
-            self.ui.operationInput.setText(f)
-            self.ui.operationOutput.setText(self.relativeFilename(f))
-            self.updateProgress()
+        self.updatePreview()
 
     def changeDirectory(self):
         self.directory = str(self.ui.directoryInput.text())
         self.updatePreview()
-        self.resetProgress()
 
     def browseDirectory(self):
-        dialog = QtGui.QFileDialog(self)
-        dialog.setFileMode(QtGui.QFileDialog.Directory)
-        if (dialog.exec_()):
-            self.ui.directoryInput.setText(dialog.selectedFiles()[0])
-            self.changeDirectory()
+        browse = QtGui.QFileDialog(self)
+        browse.setDirectory(self.directory)
+        browse.setFileMode(QtGui.QFileDialog.Directory)
+        if (browse.exec_()):
+            self.directory = str(browse.selectedFiles()[0])
+            self.ui.directoryInput.setText(self.directory)
+            self.updatePreview()
 
     def changeBasename(self):
         self.basename = str(self.ui.basenameInput.text())
         self.updatePreview()
-        self.resetProgress()
 
     def updateFilter(self):
         self.fileFilter = str(self.ui.filterInput.text())
@@ -139,14 +149,32 @@ class BatchRename(QtGui.QWidget):
         self.updatePreview()
 
     def updateStart(self):
-        self.start = int(self.ui.startInput.text())
+        self.startAt = int(self.ui.startAtInput.text())
         self.updatePreview()
 
     def toggleSafety(self):
         self.safety = not self.safety
+        if self.safety:
+            self.ui.renameButton.setEnabled(True)
+        else:
+            self.ui.renameButton.setEnabled(False)
 
     def openOutputDir(self):
-        os.system("xdg-open " + self.outputDir())
+        platformType = platform.system()
+        if platformType == "Linux":
+            subprocess.Popen(["xdg-open", self.outputDir()])
+        elif platformType == "Windows":
+            subprocess.Popen(["start", self.outputDir()], shell=True)
+
+    def cleanup(self):
+        try:
+            shutil.rmtree(self.outputDir())
+        except:
+            pass
+        self.updatePreview()
+
+    def doExit(self):
+        exit()
 
 
 def main():

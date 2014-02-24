@@ -113,6 +113,12 @@ class BatchRename(QtGui.QWidget):
 
             self.outputList.append(path)
         self.outputListModel.setStringList(self.outputList)
+        if os.path.exists(self.outputDir()):
+            self.ui.outputButton.setEnabled(True)
+            self.ui.cleanupButton.setEnabled(True)
+        else:
+            self.ui.outputButton.setEnabled(False)
+            self.ui.cleanupButton.setEnabled(False)
 
     def filterFile(self, path):
         u'Return true if the given path points to a file'
@@ -122,7 +128,7 @@ class BatchRename(QtGui.QWidget):
     # Courtesy http://www.peterbe.com/plog/uniqifiers-benchmark
     def uniq(self, seq):
         u'Return only the unique members of the given sequence'
-        
+
         seen = {}
         result = []
         for item in seq:

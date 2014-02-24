@@ -1,4 +1,4 @@
-import sys, os, shutil, fnmatch, glob, subprocess, platform
+import sys, os, shutil, fnmatch, glob, subprocess, platform, jpath
 from PyQt4 import QtCore, QtGui
 from ui_batchrename import Ui_BatchRename
 
@@ -251,7 +251,12 @@ class BatchRename(QtGui.QWidget):
 def main():
     u'Ye olde canonical entry point'
 
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    if hasattr(sys,"frozen") and sys.frozen in ("windows_exe", "console_exe"):
+        root = jpath.path(os.path.abspath(sys.executable)).dirname()
+    else:
+        root = os.path.dirname(os.path.realpath(__file__))
+
+    os.chdir(root)
 
     app = QtGui.QApplication(sys.argv)
     br  = BatchRename()

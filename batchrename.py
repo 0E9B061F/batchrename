@@ -241,7 +241,7 @@ class BatchRename(QtGui.QWidget):
     def doExit(self):
         u'Exit the program'
 
-        exit()
+        sys.exit()
 
 
 def main():

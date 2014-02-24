@@ -3,6 +3,9 @@ file "ui_batchrename.py" => "batchrename.ui" do
 end
 
 task :zip do
+	if File.exist?("batchrename.zip")
+		sh "rm batchrename.zip"
+	end
 	sh "git archive --format=zip --prefix batchrename/ HEAD > batchrename.zip"
 end
 

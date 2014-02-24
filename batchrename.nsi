@@ -3,7 +3,7 @@ name "studio25 Batch Rename"
 outFile "s25-batch_rename-setup.exe"
 
 # Base directory to install to
-installDir "$PROGRAMFILES\studio25\Batch Rename"
+installDir "$PROGRAMFILES\studio25\BatchRename"
 
 # Registry key to check for directory (so if you install again, it will 
 # overwrite the old one automatically)

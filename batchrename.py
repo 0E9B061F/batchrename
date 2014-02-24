@@ -11,6 +11,8 @@ class BatchRename(QtGui.QWidget):
         self.ui = Ui_BatchRename()
         self.ui.setupUi(self)
 
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
         self.count      = 0
         self.subdir     = "renamed"
         self.safety     = True

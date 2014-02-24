@@ -1,6 +1,5 @@
 *.swp
 *.pyc
 __*
-ui_*
 testdir/
-
+batchrename.zip

@@ -1,18 +1,83 @@
+name "studio25 Batch Rename"
+
 outFile "s25-batch_rename-setup.exe"
 
-# this will set the default installation dir to the desktop
-# $DESKTOP points to the desktop of the current user, regardless of user
+# Base directory to install to
 installDir "$PROGRAMFILES\studio25\Batch Rename"
 
-section
-  # sets the installation path
-  # $INSTDIR is defined by the installdir command, so you only should use $INSTDIR
-  setOutPath $INSTDIR
+# Registry key to check for directory (so if you install again, it will 
+# overwrite the old one automatically)
+InstallDirRegKey HKLM "Software\NSIS_BatchRename" "Install_Dir"
 
-  # This will be the file that will be included in the installer, this file has to exist :)
+# Request application privileges for Windows Vista
+RequestExecutionLevel admin
+
+# Pages
+
+Page components
+Page directory
+Page instfiles
+
+UninstPage uninstConfirm
+UninstPage instfiles
+
+
+
+# The stuff to install
+Section "BatchRename (required)"
+
+  SectionIn RO
+  
+  ; Set output path to the installation directory.
+  SetOutPath $INSTDIR
+  
+  ; Put file there
   file dist\*
   file logo.png
   file xquit.png
   file icon16.png
+  
+  ; Write the installation path into the registry
+  WriteRegStr HKLM SOFTWARE\s25_BatchRename "Install_Dir" "$INSTDIR"
+  
+  ; Write the uninstall keys for Windows
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "DisplayName" "NSIS BatchRename"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename" "NoRepair" 1
+  WriteUninstaller "uninstall.exe"
+  
+SectionEnd
 
-sectionEnd
+
+
+# Optional section (can be disabled by the user)
+Section "Start Menu Shortcuts"
+
+  CreateDirectory "$SMPROGRAMS\Studio25\Batch Rename"
+  CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+  CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Batch Rename.lnk" "$INSTDIR\batchrename.exe" "" "$INSTDIR\batchrename.exe" 0
+  
+SectionEnd
+
+
+
+# Uninstaller
+Section "Uninstall"
+  
+  ; Remove registry keys
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\BatchRename"
+  DeleteRegKey HKLM SOFTWARE\s25_BatchRename
+
+  ; Remove files and uninstaller
+  Delete $INSTDIR\*
+
+  ; Remove shortcuts, if any
+  Delete "$SMPROGRAMS\Studio25\Batch Rename\*.*"
+
+  ; Remove directories used
+  RMDir "$SMPROGRAMS\Studio25\Batch Rename"
+  RMDir "$INSTDIR"
+
+SectionEnd
+

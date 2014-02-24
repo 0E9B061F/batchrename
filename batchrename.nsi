@@ -36,6 +36,13 @@ Section "BatchRename (required)"
   file logo.png
   file xquit.png
   file icon16.png
+
+  FileOpen  $0 $INSTDIR\br.py w
+  FileWrite $0 "import os$\r$\n"
+  FileWrite $0 "os.chdir('$INSTDIR')$\r$\n"
+  FileWrite $0 "import batchrename$\r$\n"
+  FileWrite $0 "batchrename.main()$\r$\n"
+  FileClose $0
   
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\s25BatchRename "Install_Dir" "$INSTDIR"
@@ -49,7 +56,7 @@ Section "BatchRename (required)"
 
   # Windows Explorer context menu integration
   WriteRegStr HKCR "Directory\shell\s25BatchRename" "" "Open Batch Renamer ..."
-  WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\batchrename.exe %1"
+  WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\br.exe %1"
   
 SectionEnd
 
@@ -60,7 +67,7 @@ Section "Start Menu Shortcuts"
 
   CreateDirectory "$SMPROGRAMS\Studio25\Batch Rename"
   CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
-  CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Batch Rename.lnk" "$INSTDIR\batchrename.exe" "" "$INSTDIR\batchrename.exe" 0
+  CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Batch Rename.lnk" "$INSTDIR\br.exe" "" "$INSTDIR\br.exe" 0
   
 SectionEnd
 

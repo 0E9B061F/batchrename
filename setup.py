@@ -1,4 +1,4 @@
 from distutils.core import setup
 import py2exe
 
-setup(windows=['batchrename.py'])
+setup(windows=['br.py'])

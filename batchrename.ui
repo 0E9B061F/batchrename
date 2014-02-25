@@ -525,84 +525,8 @@ QLabel {
      </font>
     </property>
     <layout class="QGridLayout" name="previewGroup">
-     <item row="1" column="0">
-      <widget class="QLabel" name="previewTargetsLabel">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri,Bitstream Vera Sans,Sans,sans-serif</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>WhatsThisCursor</cursorShape>
-       </property>
-       <property name="toolTip">
-        <string>Files found in the selected directory matching the current filter</string>
-       </property>
-       <property name="text">
-        <string>Targets:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QListView" name="previewOutput">
-       <property name="font">
-        <font>
-         <family>Terminus,Consolas,Courier New,monospace</family>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-       <property name="viewMode">
-        <enum>QListView::IconMode</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QListView" name="previewTargets">
-       <property name="font">
-        <font>
-         <family>Terminus,Consolas,Courier New,monospace</family>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="previewOutputLabel">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>Calibri,Bitstream Vera Sans,Sans,sans-serif</family>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="cursor">
-        <cursorShape>WhatsThisCursor</cursorShape>
-       </property>
-       <property name="toolTip">
-        <string>Preview of filenames after rename with current settings</string>
-       </property>
-       <property name="text">
-        <string>Preview:</string>
-       </property>
-      </widget>
+     <item row="0" column="0">
+      <widget class="QTableView" name="previewTable"/>
      </item>
     </layout>
    </widget>
@@ -890,8 +814,6 @@ QLabel {
  <tabstops>
   <tabstop>directoryInput</tabstop>
   <tabstop>directoryBrowse</tabstop>
-  <tabstop>previewTargets</tabstop>
-  <tabstop>previewOutput</tabstop>
   <tabstop>filterInput</tabstop>
   <tabstop>basenameInput</tabstop>
   <tabstop>paddingInput</tabstop>

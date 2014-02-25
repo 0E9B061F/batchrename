@@ -3,6 +3,42 @@ from PyQt4 import QtCore, QtGui
 from ui_batchrename import Ui_BatchRename
 
 
+class PreviewTableModel(QtCore.QAbstractTableModel):
+    def __init__(self, parent = None, *args):
+        QtCore.QAbstractTableModel.__init__(self, parent, *args)
+        self.table = [[]]
+
+    def rowCount(self, parent):
+        return len(self.table)
+
+    def columnCount(self, parent):
+        max = 0
+        for y in self.table:
+            ly = len(y)
+            if ly > max:
+                max = ly
+        return max
+
+    def data(self, index, role):
+        if not index.isValid():
+            return None
+        elif role != Qt.DisplayRole:
+            return None
+        return (self.table[index.row()][index.column()])
+
+    def setData(self, index, value):
+        self.table[index.row()][index.column()] = value
+        return True
+
+    #def insertRows(x, y, index):
+
+    def flags(self, index):
+        return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+
+    def clear(self):
+        self.table = [[]]
+
+
 class BatchRename(QtGui.QWidget):
     def __init__(self):
         super(BatchRename, self).__init__()
@@ -33,13 +69,8 @@ class BatchRename(QtGui.QWidget):
         self.setDirectory()
 
         # Prepare list models for each list view
-        self.targetList      = QtCore.QStringList()
-        self.targetListModel = QtGui.QStringListModel(self.targetList)
-        self.ui.previewTargets.setModel(self.targetListModel)
-
-        self.outputList      = QtCore.QStringList()
-        self.outputListModel = QtGui.QStringListModel(self.outputList)
-        self.ui.previewOutput.setModel(self.outputListModel)
+        self.tableModel = PreviewTableModel(self)
+        self.ui.previewTable.setModel(self.tableModel)
 
         # Redraw relevant elements
         self.updatePreview()
@@ -100,23 +131,29 @@ class BatchRename(QtGui.QWidget):
 
         files = self.listFiles()
 
-        self.targetList.clear()
-        for path in files:
-            self.targetList.append(path)
-        self.targetListModel.setStringList(self.targetList)
+        self.tableModel.clear()
 
-        self.outputList.clear()
+        row = 0
+        for path in files:
+            index = self.ui.previewTable.model(0, row)
+            self.ui.previewTable.model.setData(index, path)
+            row += 1
+
         self.count = 0
         for path in files:
             self.count += 1
             path = os.path.join(self.subdir, self.genFilename(path))
-            if os.path.exists(os.path.join(self.directory, path)):
-                path = "[x] "+path
-            else:
-                path = "[ ] "+path
 
-            self.outputList.append(path)
-        self.outputListModel.setStringList(self.outputList)
+            if os.path.exists(os.path.join(self.directory, path)):
+                path = ["[x]", path]
+            else:
+                path = ["[ ]", path]
+
+            index = self.ui.previewTable.model(1, self.count-1)
+            self.ui.previewTable.model.setData(index, path[0])
+            index = self.ui.previewTable.model(2, self.count-1)
+            self.ui.previewTable.model.setData(index, path[1])
+
         if os.path.exists(self.outputDir()):
             self.ui.outputButton.setEnabled(True)
             self.ui.cleanupButton.setEnabled(True)

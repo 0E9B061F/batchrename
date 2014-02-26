@@ -74,10 +74,13 @@ class BatchRename(QtGui.QWidget):
         # Show the window
         self.show()
 
+
     def mousePressEvent(self, event):
+        u'For window dragging; log the position of the last mouse press'
         self.offset = event.pos()
 
     def mouseMoveEvent(self, event):
+        u'Moves the window if the window is being dragged'
         x=event.globalX()
         y=event.globalY()
         x_w = self.offset.x()

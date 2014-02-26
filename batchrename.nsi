@@ -37,6 +37,8 @@ Section "BatchRename (required)"
   file xquit.png
   file icon16.png
   file icon.ico
+  file bluelight-on.png
+  file bluelight-off.png
   
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\s25BatchRename "Install_Dir" "$INSTDIR"

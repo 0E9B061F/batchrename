@@ -22,5 +22,6 @@ package() {
 	mkdir -p "$pkgdir/usr/bin"
 	mkdir -p "$pkgdir/usr/lib/$pkgname"
 	install batchrename "$pkgdir/usr/bin"
-	cp batchrename.py ui_batchrename.py logo.png xquit.png icon16.png "$pkgdir/usr/lib/$pkgname"
+	cp batchrename.py ui_batchrename.py logo.png xquit.png icon16.png \
+	   bluelight-on.png bluelight-off.png "$pkgdir/usr/lib/$pkgname"
 }

@@ -1,4 +1,2 @@
-#!/bin/bash
-
-python2 batchrename.py
-
+#!/bin/sh
+python2 "/usr/lib/batchrename/batchrename.py"

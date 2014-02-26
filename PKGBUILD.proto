@@ -1,0 +1,26 @@
+# Maintainer: Macquarie <macquarie.sharpless@gmail.com>
+pkgname=batchrename
+pkgver=0.0.0
+pkgrel=1
+epoch=0
+pkgdesc="A simple graphical tool for batch renaming"
+arch=(any)
+url=""
+license=('GPL')
+depends=(python2 python2-pyqt4)
+builddepends=(python-pyqt4 ruby)
+source=($pkgname-$pkgver.tar.gz)
+md5sums=() #generate with 'makepkg -g'
+
+build() {
+	cd "$srcdir/$pkgname-$pkgver"
+	rake
+}
+
+package() {
+	cd "$srcdir/$pkgname-$pkgver"
+	mkdir -p "$pkgdir/usr/bin"
+	mkdir -p "$pkgdir/usr/lib/$pkgname"
+	install batchrename "$pkgdir/usr/bin"
+	cp batchrename.py ui_batchrename.py logo.png xquit.png icon16.png "$pkgdir/usr/lib/$pkgname"
+}

@@ -68,10 +68,6 @@ class BatchRename(QtGui.QWidget):
         self.setBasename()
         self.setDirectory()
 
-        # Prepare list models for each list view
-        self.tableModel = PreviewTableModel(self)
-        self.ui.previewTable.setModel(self.tableModel)
-
         # Redraw relevant elements
         self.updatePreview()
 
@@ -131,12 +127,10 @@ class BatchRename(QtGui.QWidget):
 
         files = self.listFiles()
 
-        self.tableModel.clear()
-
         row = 0
         for path in files:
-            index = self.ui.previewTable.model(0, row)
-            self.ui.previewTable.model.setData(index, path)
+            item = QtGui.QTableWidgetItem(path)
+            self.ui.previewTable.setItem(row, 0, item)
             row += 1
 
         self.count = 0
@@ -149,10 +143,10 @@ class BatchRename(QtGui.QWidget):
             else:
                 path = ["[ ]", path]
 
-            index = self.ui.previewTable.model(1, self.count-1)
-            self.ui.previewTable.model.setData(index, path[0])
-            index = self.ui.previewTable.model(2, self.count-1)
-            self.ui.previewTable.model.setData(index, path[1])
+            item_s = QtGui.QTableWidgetItem(path[0])
+            item_p = QtGui.QTableWidgetItem(path[1])
+            self.ui.previewTable.setItem(self.count-1, 1, item_s)
+            self.ui.previewTable.setItem(self.count-1, 2, item_p)
 
         if os.path.exists(self.outputDir()):
             self.ui.outputButton.setEnabled(True)

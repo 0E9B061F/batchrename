@@ -186,15 +186,18 @@ QToolTip {
 	border: 1px solid #454545;
 	font-size: 8pt;
 }
-
-QListView, QTableWidget {
+QTableWidget  {
 	font-family: Terminus, Consolas, &quot;Courier New&quot;, monospace;
-	border: 1px solid #454545;
-	padding: 5px;
-	background-color: #ffffdd;
-}
 
-QCheckBox {
+
+}
+QHeaderView {
+}
+QHeaderView::section {
+	background-color: white;
+    border: 0px;
+}
+QTableCornerButton {
 }
 
 QLabel {
@@ -254,7 +257,7 @@ QLabel {
     </property>
     <layout class="QHBoxLayout" name="directoryGroup">
      <item>
-      <widget class="QPushButton" name="outputButton_2">
+      <widget class="QPushButton" name="directoryBack">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -288,7 +291,7 @@ QLabel {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="outputButton_3">
+      <widget class="QPushButton" name="directoryUp">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -581,9 +584,9 @@ QLabel {
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>70</y>
-      <width>941</width>
+      <width>961</width>
       <height>511</height>
      </rect>
     </property>
@@ -596,6 +599,9 @@ QLabel {
     <layout class="QGridLayout" name="previewGroup">
      <item row="0" column="0">
       <widget class="QTableWidget" name="previewTable">
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
        <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
@@ -603,7 +609,7 @@ QLabel {
         <bool>true</bool>
        </property>
        <property name="showGrid">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="gridStyle">
         <enum>Qt::DashDotLine</enum>
@@ -612,13 +618,13 @@ QLabel {
         <bool>false</bool>
        </property>
        <property name="cornerButtonEnabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="rowCount">
-        <number>3</number>
+        <number>10</number>
        </property>
        <property name="columnCount">
-        <number>3</number>
+        <number>2</number>
        </property>
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>
@@ -627,29 +633,29 @@ QLabel {
         <number>100</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
        <row/>
        <row/>
        <row/>
-       <column>
-        <property name="text">
-         <string>File</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string/>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Preview</string>
-        </property>
-       </column>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <column/>
+       <column/>
       </widget>
      </item>
     </layout>
@@ -1126,6 +1132,38 @@ QLabel {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>directoryBack</sender>
+   <signal>released()</signal>
+   <receiver>BatchRename</receiver>
+   <slot>backDirectory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>41</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-84</x>
+     <y>53</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>directoryUp</sender>
+   <signal>released()</signal>
+   <receiver>BatchRename</receiver>
+   <slot>upDirectory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>43</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>80</x>
+     <y>-96</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <signal>perform()</signal>
@@ -1140,5 +1178,7 @@ QLabel {
   <slot>openOutputDir()</slot>
   <slot>doExit()</slot>
   <slot>cleanup()</slot>
+  <slot>backDirectory()</slot>
+  <slot>upDirectory()</slot>
  </slots>
 </ui>

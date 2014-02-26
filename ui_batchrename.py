@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batchrename.ui'
 #
-# Created: Mon Feb 24 13:01:50 2014
+# Created: Wed Feb 26 16:48:56 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,7 +63,7 @@ class Ui_BatchRename(object):
         BatchRename.setFont(font)
         BatchRename.setAcceptDrops(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icon16.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("../../../home/nn/.designer/backup/icon16.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         BatchRename.setWindowIcon(icon)
         BatchRename.setAutoFillBackground(False)
         BatchRename.setStyleSheet(_fromUtf8("#BatchRename {\n"
@@ -119,14 +119,18 @@ class Ui_BatchRename(object):
 "    border: 1px solid #454545;\n"
 "    font-size: 8pt;\n"
 "}\n"
-"\n"
-"QListView {\n"
+"QTableWidget  {\n"
 "    font-family: Terminus, Consolas, \"Courier New\", monospace;\n"
-"    border: 1px solid #454545;\n"
-"    padding: 5px;\n"
-"}\n"
 "\n"
-"QCheckBox {\n"
+"\n"
+"}\n"
+"QHeaderView {\n"
+"}\n"
+"QHeaderView::section {\n"
+"    background-color: white;\n"
+"    border: 0px;\n"
+"}\n"
+"QTableCornerButton {\n"
 "}\n"
 "\n"
 "QLabel {\n"
@@ -157,6 +161,34 @@ class Ui_BatchRename(object):
         self.directoryGroup = QtGui.QHBoxLayout(self.horizontalLayoutWidget_3)
         self.directoryGroup.setMargin(0)
         self.directoryGroup.setObjectName(_fromUtf8("directoryGroup"))
+        self.directoryBack = QtGui.QPushButton(self.horizontalLayoutWidget_3)
+        self.directoryBack.setEnabled(True)
+        self.directoryBack.setMinimumSize(QtCore.QSize(25, 25))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Candara"))
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.directoryBack.setFont(font)
+        self.directoryBack.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.directoryBack.setStyleSheet(_fromUtf8(""))
+        self.directoryBack.setObjectName(_fromUtf8("directoryBack"))
+        self.directoryGroup.addWidget(self.directoryBack)
+        self.directoryUp = QtGui.QPushButton(self.horizontalLayoutWidget_3)
+        self.directoryUp.setEnabled(True)
+        self.directoryUp.setMinimumSize(QtCore.QSize(25, 25))
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Candara"))
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.directoryUp.setFont(font)
+        self.directoryUp.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.directoryUp.setStyleSheet(_fromUtf8(""))
+        self.directoryUp.setObjectName(_fromUtf8("directoryUp"))
+        self.directoryGroup.addWidget(self.directoryUp)
         self.directoryLabel = QtGui.QLabel(self.horizontalLayoutWidget_3)
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Calibri,Bitstream Vera Sans,Sans,sans-serif"))
@@ -272,7 +304,7 @@ class Ui_BatchRename(object):
         self.paddingInput.setObjectName(_fromUtf8("paddingInput"))
         self.paddingGroup.addWidget(self.paddingInput)
         self.gridLayoutWidget = QtGui.QWidget(self.Wrapper)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(20, 60, 941, 521))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 70, 961, 511))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Candara"))
         font.setPointSize(10)
@@ -281,41 +313,23 @@ class Ui_BatchRename(object):
         self.previewGroup = QtGui.QGridLayout(self.gridLayoutWidget)
         self.previewGroup.setMargin(0)
         self.previewGroup.setObjectName(_fromUtf8("previewGroup"))
-        self.previewTargetsLabel = QtGui.QLabel(self.gridLayoutWidget)
-        self.previewTargetsLabel.setMaximumSize(QtCore.QSize(100, 16777215))
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Calibri,Bitstream Vera Sans,Sans,sans-serif"))
-        font.setBold(True)
-        font.setWeight(75)
-        self.previewTargetsLabel.setFont(font)
-        self.previewTargetsLabel.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
-        self.previewTargetsLabel.setObjectName(_fromUtf8("previewTargetsLabel"))
-        self.previewGroup.addWidget(self.previewTargetsLabel, 1, 0, 1, 1)
-        self.previewOutput = QtGui.QListView(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Terminus,Consolas,Courier New,monospace"))
-        self.previewOutput.setFont(font)
-        self.previewOutput.setToolTip(_fromUtf8(""))
-        self.previewOutput.setViewMode(QtGui.QListView.IconMode)
-        self.previewOutput.setObjectName(_fromUtf8("previewOutput"))
-        self.previewGroup.addWidget(self.previewOutput, 3, 1, 1, 1)
-        self.previewTargets = QtGui.QListView(self.gridLayoutWidget)
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Terminus,Consolas,Courier New,monospace"))
-        self.previewTargets.setFont(font)
-        self.previewTargets.setToolTip(_fromUtf8(""))
-        self.previewTargets.setObjectName(_fromUtf8("previewTargets"))
-        self.previewGroup.addWidget(self.previewTargets, 3, 0, 1, 1)
-        self.previewOutputLabel = QtGui.QLabel(self.gridLayoutWidget)
-        self.previewOutputLabel.setMaximumSize(QtCore.QSize(100, 16777215))
-        font = QtGui.QFont()
-        font.setFamily(_fromUtf8("Calibri,Bitstream Vera Sans,Sans,sans-serif"))
-        font.setBold(True)
-        font.setWeight(75)
-        self.previewOutputLabel.setFont(font)
-        self.previewOutputLabel.setCursor(QtGui.QCursor(QtCore.Qt.WhatsThisCursor))
-        self.previewOutputLabel.setObjectName(_fromUtf8("previewOutputLabel"))
-        self.previewGroup.addWidget(self.previewOutputLabel, 1, 1, 1, 1)
+        self.previewTable = QtGui.QTableWidget(self.gridLayoutWidget)
+        self.previewTable.setFrameShape(QtGui.QFrame.NoFrame)
+        self.previewTable.setFrameShadow(QtGui.QFrame.Plain)
+        self.previewTable.setAlternatingRowColors(True)
+        self.previewTable.setShowGrid(False)
+        self.previewTable.setGridStyle(QtCore.Qt.DashDotLine)
+        self.previewTable.setCornerButtonEnabled(False)
+        self.previewTable.setRowCount(10)
+        self.previewTable.setColumnCount(2)
+        self.previewTable.setObjectName(_fromUtf8("previewTable"))
+        self.previewTable.horizontalHeader().setCascadingSectionResizes(False)
+        self.previewTable.horizontalHeader().setDefaultSectionSize(100)
+        self.previewTable.horizontalHeader().setHighlightSections(False)
+        self.previewTable.horizontalHeader().setSortIndicatorShown(False)
+        self.previewTable.verticalHeader().setVisible(False)
+        self.previewTable.verticalHeader().setHighlightSections(False)
+        self.previewGroup.addWidget(self.previewTable, 0, 0, 1, 1)
         self.bottomSpacer = QtGui.QFrame(self.Wrapper)
         self.bottomSpacer.setGeometry(QtCore.QRect(20, 630, 641, 31))
         font = QtGui.QFont()
@@ -455,11 +469,11 @@ class Ui_BatchRename(object):
         QtCore.QObject.connect(self.outputButton, QtCore.SIGNAL(_fromUtf8("released()")), BatchRename.openOutputDir)
         QtCore.QObject.connect(self.exitButton, QtCore.SIGNAL(_fromUtf8("released()")), BatchRename.doExit)
         QtCore.QObject.connect(self.cleanupButton, QtCore.SIGNAL(_fromUtf8("released()")), BatchRename.cleanup)
+        QtCore.QObject.connect(self.directoryBack, QtCore.SIGNAL(_fromUtf8("released()")), BatchRename.backDirectory)
+        QtCore.QObject.connect(self.directoryUp, QtCore.SIGNAL(_fromUtf8("released()")), BatchRename.upDirectory)
         QtCore.QMetaObject.connectSlotsByName(BatchRename)
         BatchRename.setTabOrder(self.directoryInput, self.directoryBrowse)
-        BatchRename.setTabOrder(self.directoryBrowse, self.previewTargets)
-        BatchRename.setTabOrder(self.previewTargets, self.previewOutput)
-        BatchRename.setTabOrder(self.previewOutput, self.filterInput)
+        BatchRename.setTabOrder(self.directoryBrowse, self.filterInput)
         BatchRename.setTabOrder(self.filterInput, self.basenameInput)
         BatchRename.setTabOrder(self.basenameInput, self.paddingInput)
         BatchRename.setTabOrder(self.paddingInput, self.startAtInput)
@@ -471,6 +485,10 @@ class Ui_BatchRename(object):
 
     def retranslateUi(self, BatchRename):
         BatchRename.setWindowTitle(_translate("BatchRename", "studio25 Batch Renamer", None))
+        self.directoryBack.setToolTip(_translate("BatchRename", "Open the folder containing the renamed files", None))
+        self.directoryBack.setText(_translate("BatchRename", "<", None))
+        self.directoryUp.setToolTip(_translate("BatchRename", "Open the folder containing the renamed files", None))
+        self.directoryUp.setText(_translate("BatchRename", "^", None))
         self.directoryLabel.setToolTip(_translate("BatchRename", "Enter or browse for the directory containing the files to be renamed", None))
         self.directoryLabel.setText(_translate("BatchRename", "Directory:", None))
         self.directoryInput.setText(_translate("BatchRename", "/foo/bar/baz", None))
@@ -485,10 +503,7 @@ class Ui_BatchRename(object):
         self.paddingLabel.setToolTip(_translate("BatchRename", "Select the number of decimal places to be padded with zeroes", None))
         self.paddingLabel.setText(_translate("BatchRename", "Zero pad:", None))
         self.paddingInput.setText(_translate("BatchRename", "3", None))
-        self.previewTargetsLabel.setToolTip(_translate("BatchRename", "Files found in the selected directory matching the current filter", None))
-        self.previewTargetsLabel.setText(_translate("BatchRename", "Targets:", None))
-        self.previewOutputLabel.setToolTip(_translate("BatchRename", "Preview of filenames after rename with current settings", None))
-        self.previewOutputLabel.setText(_translate("BatchRename", "Preview:", None))
+        self.previewTable.setSortingEnabled(False)
         self.filterLabel.setToolTip(_translate("BatchRename", "Only target files matching this filter. *.ext will match any file with the given extension. Multiple space-seperate filters may be given", None))
         self.filterLabel.setText(_translate("BatchRename", "Filter:", None))
         self.filterInput.setText(_translate("BatchRename", "*.jpg *.jpeg *.png *.tif *.gif", None))

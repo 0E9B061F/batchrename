@@ -3,6 +3,22 @@ from PyQt4 import QtCore, QtGui
 from ui_batchrename import Ui_BatchRename
 
 
+def itemize(obj):
+    return QtGui.QTableWidgetItem(obj)
+
+# Courtesy http://www.peterbe.com/plog/uniqifiers-benchmark
+def uniq(seq):
+    u'Return only the unique members of the given sequence'
+
+    seen   = {}
+    result = []
+    for item in seq:
+        if item in seen: continue
+        seen[item] = 1
+        result.append(item)
+    return result
+
+
 class BatchRename(QtGui.QWidget):
     def __init__(self):
         super(BatchRename, self).__init__()
@@ -23,23 +39,25 @@ class BatchRename(QtGui.QWidget):
         self.startAt    = 1
         self.fileFilter = "*.jpg *.jpeg *.tif *.tiff *.png *.raw *.gif"
 
+        # Path trace for file browsing
+        self.trace = []
+
         try:
-            self.directory = sys.argv[1]
+            self.cd(sys.argv[1])
         except:
-            self.directory = os.path.expanduser("~")
+            self.cd(os.path.expanduser("~"))
 
         # Fill in defaults on the interface
         self.setBasename()
         self.setDirectory()
 
-        # Prepare list models for each list view
-        self.targetList      = QtCore.QStringList()
-        self.targetListModel = QtGui.QStringListModel(self.targetList)
-        self.ui.previewTargets.setModel(self.targetListModel)
+        # Set the number of columns in the preview table
+        self.ui.previewTable.setColumnCount(2)
 
-        self.outputList      = QtCore.QStringList()
-        self.outputListModel = QtGui.QStringListModel(self.outputList)
-        self.ui.previewOutput.setModel(self.outputListModel)
+        self.ui.previewTable.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
+        self.ui.previewTable.horizontalHeader().setStretchLastSection(True)
+        self.ui.previewTable.setHorizontalHeaderItem(0, itemize("Matched Files"))
+        self.ui.previewTable.setHorizontalHeaderItem(1, itemize("Rename Preview"))
 
         # Redraw relevant elements
         self.updatePreview()
@@ -48,12 +66,18 @@ class BatchRename(QtGui.QWidget):
         self.show()
 
 
+    def cd(self, path):
+        self.directory = path
+        self.trace.append(path)
+
     def mousePressEvent(self, event):
         u'For window dragging; log the position of the last mouse press'
+
         self.offset = event.pos()
 
     def mouseMoveEvent(self, event):
         u'Moves the window if the window is being dragged'
+
         x=event.globalX()
         y=event.globalY()
         x_w = self.offset.x()
@@ -101,25 +125,31 @@ class BatchRename(QtGui.QWidget):
     def updatePreview(self):
         u'Update the targets list and the preview list interface elements'
 
+        self.setDirectory()
+
         files = self.listFiles()
+        self.ui.previewTable.setRowCount(len(files))
 
-        self.targetList.clear()
+        row = 0
         for path in files:
-            self.targetList.append(path)
-        self.targetListModel.setStringList(self.targetList)
+            item = itemize(path)
+            self.ui.previewTable.setItem(row, 0, item)
+            row += 1
 
-        self.outputList.clear()
         self.count = 0
         for path in files:
             self.count += 1
             path = os.path.join(self.subdir, self.genFilename(path))
-            if os.path.exists(os.path.join(self.directory, path)):
-                path = "[x] "+path
-            else:
-                path = "[ ] "+path
 
-            self.outputList.append(path)
-        self.outputListModel.setStringList(self.outputList)
+            if os.path.exists(os.path.join(self.directory, path)):
+                icon = "bluelight-on.png"
+            else:
+                icon = "bluelight-off.png"
+
+            item = itemize(path)
+            item.setIcon(QtGui.QIcon(icon))
+            self.ui.previewTable.setItem(self.count-1, 1, item)
+
         if os.path.exists(self.outputDir()):
             self.ui.outputButton.setEnabled(True)
             self.ui.cleanupButton.setEnabled(True)
@@ -127,22 +157,15 @@ class BatchRename(QtGui.QWidget):
             self.ui.outputButton.setEnabled(False)
             self.ui.cleanupButton.setEnabled(False)
 
+        if len(self.trace) > 1:
+            self.ui.directoryBack.setEnabled(True)
+        else:
+            self.ui.directoryBack.setEnabled(False)
+
     def filterFile(self, path):
         u'Return true if the given path points to a file'
 
         return os.path.isfile(os.path.join(self.directory, path))
-
-    # Courtesy http://www.peterbe.com/plog/uniqifiers-benchmark
-    def uniq(self, seq):
-        u'Return only the unique members of the given sequence'
-
-        seen = {}
-        result = []
-        for item in seq:
-            if item in seen: continue
-            seen[item] = 1
-            result.append(item)
-        return result
 
     def listFiles(self):
         u'Return a list of files in self.directory matching the current filter'
@@ -151,7 +174,7 @@ class BatchRename(QtGui.QWidget):
         for extglob in self.fileFilter.split(" "):
             fullglob = os.path.join(self.directory, extglob)
             files += glob.glob(fullglob)
-        files = self.uniq(files)
+        files = uniq(files)
         return [ f for f in files if self.filterFile(f) ]
 
 
@@ -179,7 +202,7 @@ class BatchRename(QtGui.QWidget):
     def changeDirectory(self):
         u'Set the target directory from the contents of the directory input box'
 
-        self.directory = str(self.ui.directoryInput.text())
+        self.cd(str(self.ui.directoryInput.text()))
         self.updatePreview()
 
     def browseDirectory(self):
@@ -189,7 +212,7 @@ class BatchRename(QtGui.QWidget):
         browse.setDirectory(self.directory)
         browse.setFileMode(QtGui.QFileDialog.Directory)
         if (browse.exec_()):
-            self.directory = str(browse.selectedFiles()[0])
+            self.cd(str(browse.selectedFiles()[0]))
             self.ui.directoryInput.setText(self.directory)
             self.updatePreview()
 
@@ -250,6 +273,18 @@ class BatchRename(QtGui.QWidget):
 
         # Call sys.exit instead of exit for MS Windows campatibility
         sys.exit()
+
+    def upDirectory(self):
+        parent = os.path.dirname(self.directory)
+        self.cd(parent)
+        self.updatePreview()
+
+    def backDirectory(self):
+        if len(self.trace) > 1:
+            self.trace.pop()
+            last = self.trace.pop()
+            self.cd(last)
+            self.updatePreview()
 
 
 def main():

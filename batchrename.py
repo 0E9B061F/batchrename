@@ -23,7 +23,7 @@ class BatchRename(QtGui.QWidget):
     def __init__(self):
         super(BatchRename, self).__init__()
 
-        # Set up the user interface from Designer.
+        # Set up the user interface from Designer
         self.ui = Ui_BatchRename()
         self.ui.setupUi(self)
 
@@ -56,8 +56,6 @@ class BatchRename(QtGui.QWidget):
 
         self.ui.previewTable.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
         self.ui.previewTable.horizontalHeader().setStretchLastSection(True)
-        self.ui.previewTable.setHorizontalHeaderItem(0, itemize("Matched Files"))
-        self.ui.previewTable.setHorizontalHeaderItem(1, itemize("Rename Preview"))
 
         # Redraw relevant elements
         self.updatePreview()
@@ -127,12 +125,19 @@ class BatchRename(QtGui.QWidget):
 
         self.setDirectory()
 
+        self.ui.previewTable.clear()
+        self.ui.previewTable.setHorizontalHeaderItem(0, itemize("Matched Files"))
+        self.ui.previewTable.setHorizontalHeaderItem(1, itemize("Rename Preview"))
+
         files = self.listFiles()
-        self.ui.previewTable.setRowCount(len(files))
+        rows  = len(files)
+        if rows < 16:
+            rows = 16
+        self.ui.previewTable.setRowCount(rows)
 
         row = 0
         for path in files:
-            item = itemize(path)
+            item = itemize(os.path.basename(path))
             self.ui.previewTable.setItem(row, 0, item)
             row += 1
 

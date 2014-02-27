@@ -6,7 +6,7 @@ task :zip do
 	if File.exist?("batchrename.zip")
 		sh "rm batchrename.zip"
 	end
-	sh "git archive --format=zip --prefix=batchrename/ --output=batchrename.zip"
+	sh "git archive --format=zip --prefix=batchrename/ --output=batchrename.zip HEAD"
 end
 
 task :ico do

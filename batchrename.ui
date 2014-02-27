@@ -138,6 +138,28 @@
 	font-family: Calibri, Bitstream Vera Sans, Sans, sans-serif;
 }
 
+#exitGroup {
+	background-image: url(./xquit.png);
+}
+#directoryUp {
+	background-image: url(./arrow-up.png);
+}
+#directoryUpGroup {
+	background-color: #bfbfe2;
+	border-radius: 2px;
+}
+#directoryBack {
+	background-image: url(./arrow-back.png);
+}
+#directoryBackGroup {
+	background-color: #bfbfe2;
+	border-radius: 2px;
+}
+#exitButton, #directoryUp, #directoryBack {
+	background-color: none;
+	border: none;
+}
+
 QWidget {
 	background-color: white;
 }
@@ -150,9 +172,8 @@ QWidget {
 QLineEdit, QComboBox {
 	background-color: #6e7fd2;
 	color: #FFFFFF;
-	padding: 1px;
+	padding: 3px;
 	border-style: solid;
-	border: 1px solid #454545;
 	border-radius: 2px;
 	font-family: Terminus, Consolas, &quot;Courier New&quot;, monospace;
 }
@@ -161,8 +182,7 @@ QPushButton {
 	font-family: Calibri, Bitstream Vera Sans, Sans, sans-serif;
 	background-color: #bfbfe2;
 	color: #202050;
-	padding: 4px;
-	border: 1px solid #6e7fd2;
+	padding: 5px;
 	border-radius: 2px;
 	font-family: Candara;
 	font-weight: bold;
@@ -172,11 +192,6 @@ QPushButton {
 QPushButton:!enabled {
 	background-color: #cfcfcf;
 	color: #909090;
-}
-
-#exitButton {
-	background-color: none;
-	border: none;
 }
 
 QToolTip {
@@ -257,71 +272,133 @@ QLabel {
     </property>
     <layout class="QHBoxLayout" name="directoryGroup">
      <item>
-      <widget class="QPushButton" name="directoryBack">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
+      <widget class="QWidget" name="directoryBackGroup" native="true">
        <property name="minimumSize">
         <size>
          <width>25</width>
          <height>25</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Candara</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-        </font>
+       <property name="maximumSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
        </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="toolTip">
-        <string>Open the folder containing the renamed files</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>&lt;</string>
-       </property>
+       <widget class="QPushButton" name="directoryBack">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>25</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Candara</family>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string>Open the folder containing the renamed files</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="directoryUp">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
+      <widget class="QWidget" name="directoryUpGroup" native="true">
        <property name="minimumSize">
         <size>
          <width>25</width>
          <height>25</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <family>Candara</family>
-         <pointsize>8</pointsize>
-         <weight>75</weight>
-         <italic>false</italic>
-         <bold>true</bold>
-        </font>
+       <property name="maximumSize">
+        <size>
+         <width>25</width>
+         <height>25</height>
+        </size>
        </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="toolTip">
-        <string>Open the folder containing the renamed files</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>^</string>
-       </property>
+       <widget class="QPushButton" name="directoryUp">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>25</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Candara</family>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string>Open the folder containing the renamed files</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
       </widget>
      </item>
      <item>
@@ -621,7 +698,7 @@ QLabel {
         <bool>false</bool>
        </property>
        <property name="rowCount">
-        <number>10</number>
+        <number>16</number>
        </property>
        <property name="columnCount">
         <number>2</number>
@@ -630,13 +707,16 @@ QLabel {
         <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderDefaultSectionSize">
-        <number>100</number>
+        <number>200</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
         <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
        </attribute>
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
@@ -654,8 +734,22 @@ QLabel {
        <row/>
        <row/>
        <row/>
-       <column/>
-       <column/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <row/>
+       <column>
+        <property name="text">
+         <string>Matching Files</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Rename Preview</string>
+        </property>
+       </column>
       </widget>
      </item>
     </layout>
@@ -760,7 +854,7 @@ QLabel {
      <item>
       <widget class="QPushButton" name="outputButton">
        <property name="enabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="font">
         <font>
@@ -787,6 +881,9 @@ QLabel {
      </item>
      <item>
       <widget class="QPushButton" name="cleanupButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="font">
         <font>
          <family>Candara</family>
@@ -911,7 +1008,7 @@ QLabel {
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(./xquit.png)</string>
+     <string notr="true"/>
     </property>
     <widget class="QPushButton" name="exitButton">
      <property name="geometry">
@@ -923,7 +1020,7 @@ QLabel {
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-image: url(none) !important;</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string/>

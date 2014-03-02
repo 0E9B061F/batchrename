@@ -5,7 +5,7 @@ outFile "s25-batch_rename-setup.exe"
 # Base directory to install to
 installDir "$PROGRAMFILES\studio25\BatchRename"
 
-# Registry key to check for directory (so if you install again, it will 
+# Registry key to check for directory (so if you install again, it will
 # overwrite the old one automatically)
 InstallDirRegKey HKLM "Software\NSIS_BatchRename" "Install_Dir"
 
@@ -27,10 +27,10 @@ UninstPage instfiles
 Section "BatchRename (required)"
 
   SectionIn RO
-  
+
   ; Set output path to the installation directory.
   SetOutPath $INSTDIR
-  
+
   ; Put file there
   file dist\*
   file logo.png
@@ -41,10 +41,10 @@ Section "BatchRename (required)"
   file bluelight-off.png
   file arrow-up.png
   file arrow-back.png
-  
+
   ; Write the installation path into the registry
   WriteRegStr HKLM SOFTWARE\s25BatchRename "Install_Dir" "$INSTDIR"
-  
+
   ; Write the uninstall keys for Windows
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "DisplayName" "NSIS BatchRename"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -55,7 +55,7 @@ Section "BatchRename (required)"
   # Windows Explorer context menu integration
   WriteRegStr HKCR "Directory\shell\s25BatchRename" "" "Open Batch Renamer ..."
   WriteRegStr HKCR "Directory\shell\s25BatchRename\command" "" "$INSTDIR\batchrename.exe %1"
-  
+
 SectionEnd
 
 
@@ -66,14 +66,14 @@ Section "Start Menu Shortcuts"
   CreateDirectory "$SMPROGRAMS\Studio25\Batch Rename"
   CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\Studio25\Batch Rename\Batch Rename.lnk" "$INSTDIR\batchrename.exe" "" "$INSTDIR\batchrename.exe" 0
-  
+
 SectionEnd
 
 
 
 # Uninstaller
 Section "Uninstall"
-  
+
   ; Remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\s25BatchRename"
   DeleteRegKey HKLM SOFTWARE\s25BatchRename

@@ -4,3 +4,4 @@ __*
 testdir/
 batchrename.zip
 arch/
+*.sublime-*

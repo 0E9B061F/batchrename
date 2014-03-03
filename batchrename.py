@@ -57,6 +57,8 @@ class BatchRename(QtGui.QWidget):
         self.ui.previewTable.horizontalHeader().setResizeMode(QtGui.QHeaderView.Stretch)
         self.ui.previewTable.horizontalHeader().setStretchLastSection(True)
 
+        self.ui.previewTable.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+
         # Redraw relevant elements
         self.updatePreview()
 

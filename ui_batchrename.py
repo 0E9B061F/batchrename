@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batchrename.ui'
 #
-# Created: Thu Feb 27 08:19:08 2014
+# Created: Mon Mar  3 04:23:43 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -335,7 +335,7 @@ class Ui_BatchRename(object):
         self.paddingInput.setObjectName(_fromUtf8("paddingInput"))
         self.paddingGroup.addWidget(self.paddingInput)
         self.gridLayoutWidget = QtGui.QWidget(self.Wrapper)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 70, 961, 511))
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(0, 70, 981, 511))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Candara"))
         font.setPointSize(10)

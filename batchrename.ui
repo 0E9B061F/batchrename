@@ -661,9 +661,9 @@ QLabel {
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>70</y>
-      <width>961</width>
+      <width>981</width>
       <height>511</height>
      </rect>
     </property>

@@ -155,6 +155,8 @@ class BatchRename(QtGui.QWidget):
             item.setIcon(QtGui.QIcon(icon))
             self.ui.previewTable.setItem(self.count-1, 1, item)
 
+        self.ui.previewTable.sortItems(0)
+
         if os.path.exists(self.outputDir()):
             self.ui.outputButton.setEnabled(True)
             self.ui.cleanupButton.setEnabled(True)

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'batchrename.ui'
 #
-# Created: Mon Mar  3 04:23:43 2014
+# Created: Mon Mar 10 16:09:03 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -348,6 +348,8 @@ class Ui_BatchRename(object):
         self.previewTable.setFrameShape(QtGui.QFrame.NoFrame)
         self.previewTable.setFrameShadow(QtGui.QFrame.Plain)
         self.previewTable.setAlternatingRowColors(True)
+        self.previewTable.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
+        self.previewTable.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.previewTable.setShowGrid(False)
         self.previewTable.setGridStyle(QtCore.Qt.DashDotLine)
         self.previewTable.setCornerButtonEnabled(False)
